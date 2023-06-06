@@ -5,6 +5,7 @@ export class Vatsim {
 
 	private onlineControllers: Controller[] = [];
 	private newControllers: Controller[] = [];
+	private controllers: Controller[] = [];
 
 	public async initialize(): Promise<void> {
 		if (this.initialized) {
@@ -16,13 +17,11 @@ export class Vatsim {
 		setInterval(async () => {
 			const onlineControllers = await this.fetchControllers();
 			const ignoredCids = await Database.getIgnoredCids();
-			console.log(ignoredCids);
+
 			this.newControllers = await this.filterNewControllers(onlineControllers);
 
 			for (const newController of this.newControllers) {
-				if (ignoredCids.includes(newController.cid)) {
-					continue;
-				} else {
+				if (!ignoredCids.includes(newController.cid)) {
 					await Vatsim.sendDiscordNotification(newController);
 				}
 			}
@@ -51,9 +50,14 @@ export class Vatsim {
 
 	private async filterNewControllers(onlineControllers: Controller[]): Promise<Controller[]> {
 		const newControllers: Controller[] = [];
+		const expireAt: Date = new Date();
+
+		expireAt.setTime(expireAt.getTime() + 90000);
 
 		for (const onlineController of onlineControllers) {
 			const found = this.onlineControllers.find((controller) => controller.cid === onlineController.cid);
+
+			onlineController.expireAt = expireAt;
 
 			if (!found) {
 				newControllers.push(onlineController);

@@ -10,4 +10,5 @@ export type Controller = {
 	textAtis: string[] | null;
 	lastUpdated: Date;
 	logonTime: Date;
+	expireAt: Date;
 };

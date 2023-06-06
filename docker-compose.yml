@@ -1,0 +1,28 @@
+version: "3.2"
+services:
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    networks:
+      - project
+    depends_on:
+      - mariadb
+    volumes:
+      - ./src:/myapp/src
+    restart: always
+  mariadb:
+    image: mariadb:10.3
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql
+    networks:
+      - project
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: vatnotif
+networks:
+  project:
+    external: true
