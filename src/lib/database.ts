@@ -42,7 +42,7 @@ export class Database {
 		let webhookUrls: DiscordNotification[] = [];
 
 		for (const cid of affectedCids) {
-			sql = "SELECT webhook_url FROM discord_notifications WHERE cid = ?";
+			sql = "SELECT webhook_url, title, description FROM discord_notifications WHERE cid = ?";
 			values = [cid];
 
 			rows = await this.query(sql, values);
