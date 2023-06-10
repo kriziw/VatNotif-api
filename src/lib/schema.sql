@@ -7,7 +7,9 @@ USE vatnotif;
 -- Create table discord_notifications
 CREATE TABLE discord_notifications (
   cid INT,
-  webhook_url VARCHAR(2000)
+  webhook_url VARCHAR(2000),
+  title VARCHAR(2000),
+  description VARCHAR(2000)
 );
 
 -- Create table ignored_cids

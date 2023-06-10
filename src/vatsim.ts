@@ -50,14 +50,9 @@ export class Vatsim {
 
 	private async filterNewControllers(onlineControllers: Controller[]): Promise<Controller[]> {
 		const newControllers: Controller[] = [];
-		const expireAt: Date = new Date();
-
-		expireAt.setTime(expireAt.getTime() + 90000);
 
 		for (const onlineController of onlineControllers) {
 			const found = this.onlineControllers.find((controller) => controller.cid === onlineController.cid);
-
-			onlineController.expireAt = expireAt;
 
 			if (!found) {
 				newControllers.push(onlineController);
@@ -71,7 +66,7 @@ export class Vatsim {
 		const webhooks = await Database.getWebhooksFromCallsign(controller.callsign);
 
 		for (const webhook of webhooks) {
-			await fetch(webhook, {
+			await fetch(webhook.webhook_url, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -80,14 +75,12 @@ export class Vatsim {
 					content: null,
 					embeds: [
 						{
-							title: "New VatNotif notification!",
-							description: `Controller **${controller.name}** has logged on as **${controller.callsign}**!`,
+							title: webhook.title || "New vACCHUN notification!",
+							description: webhook.description?.replace("{{name}}", controller.name)?.replace("{{callsign}}", controller.callsign) || `Controller **${controller.name}** has logged on as **${controller.callsign}**!`,
 							color: 2329275,
 							timestamp: new Date().toISOString(),
 						},
 					],
-					username: "VatNotif",
-					avatar_url: "https://vatnotif.kristn.co.uk/brand/logo.webp",
 					attachments: [],
 				}),
 			});

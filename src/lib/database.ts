@@ -1,6 +1,13 @@
 import { createConnection, Connection } from "mysql2/promise";
 import { mysqlConfig } from "../conf/mysql.js";
 
+export type DiscordNotification = {
+	cid: number;
+	webhook_url: string;
+	title: string;
+	description: string;
+};
+
 export class Database {
 	private static async connect(): Promise<Connection> {
 		return await createConnection({
@@ -24,7 +31,7 @@ export class Database {
 		return rows;
 	}
 
-	public static async getWebhooksFromCallsign(callsign: string): Promise<string[]> {
+	public static async getWebhooksFromCallsign(callsign: string): Promise<DiscordNotification[]> {
 		let sql = "SELECT cid FROM watched_callsigns WHERE callsign = ?";
 		let values = [callsign];
 
@@ -32,7 +39,7 @@ export class Database {
 
 		const affectedCids = rows.map((row: { cid: string }) => row.cid);
 
-		let webhookUrls: string[] = [];
+		let webhookUrls: DiscordNotification[] = [];
 
 		for (const cid of affectedCids) {
 			sql = "SELECT webhook_url FROM discord_notifications WHERE cid = ?";
@@ -40,7 +47,9 @@ export class Database {
 
 			rows = await this.query(sql, values);
 
-			webhookUrls = webhookUrls.concat(rows.map((row: { webhook_url: string }) => row.webhook_url));
+			for(const row of rows){
+				webhookUrls.push(row);
+			}
 		}
 
 		return webhookUrls;
