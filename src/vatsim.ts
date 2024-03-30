@@ -1,6 +1,6 @@
 import { Database } from "./lib/database.js";
 import { DiscordNotifications } from "./notifications/discord.js";
-import { PushNotifications } from "./notifications/push.js";
+// import { PushNotifications } from "./notifications/push.js";
 import { Controller } from "./types/controllers.js";
 export class Vatsim {
 	private initialized = false;
@@ -33,7 +33,7 @@ export class Vatsim {
 					const affectedCids = await Database.getAffectedCids(normalisedCallsign);
 
 					await DiscordNotifications.sendOnlineNotification(newController, affectedCids);
-					await PushNotifications.sendOnlineNotification(newController, affectedCids);
+					// await PushNotifications.sendOnlineNotification(newController, affectedCids);
 				}
 			}
 
@@ -42,7 +42,7 @@ export class Vatsim {
 					const affectedCids = await Database.getAffectedCids(downController.callsign);
 
 					await DiscordNotifications.sendDownNotification(downController, affectedCids);
-					await PushNotifications.sendDownNotification(downController, affectedCids);
+					// await PushNotifications.sendDownNotification(downController, affectedCids);
 				}
 			}
 		}, 15 * 1000);
