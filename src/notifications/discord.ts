@@ -46,7 +46,7 @@ export class DiscordNotifications {
 					embeds: [
 						{
 							title: "New vACCHUN notification!",
-							description: `🔻 Controller **${controller.name}** (${controller.cid}) has logged off from **${controller.callsign}**!`,
+							description: `🔽 Controller **${controller.name}** (${controller.cid}) has logged off from **${controller.callsign}**!`,
 							color: 14298413,
 							timestamp: new Date().toISOString(),
 						},
