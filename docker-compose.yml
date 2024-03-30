@@ -12,12 +12,13 @@ services:
       - ./src:/myapp/src
     restart: always
   mariadb:
-    image: mariadb:10.3
+    image: mariadb:11.3
+    platform: linx
     restart: always
     ports:
       - "3306:3306"
     volumes:
-      - /var/lib/mysql
+      - ./db:/var/lib/mysql
     networks:
       - project
     environment:
