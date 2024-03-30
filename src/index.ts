@@ -1,7 +1,7 @@
 import express from "express";
 import { Vatsim, vatsim } from "./vatsim.js";
 import { VAPIDKeys } from "./conf/push.js";
-import webpush from "web-push";
+// import webpush from "web-push";
 import { Database } from "./lib/database.js";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -18,7 +18,7 @@ app.use(express.json());
 const swaggerDocument = YAML.load("./swagger.yaml");
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-webpush.setVapidDetails("mailto: kristian@kristn.co.uk", VAPIDKeys.publicKey, VAPIDKeys.privateKey);
+// webpush.setVapidDetails("mailto: kristian@kristn.co.uk", VAPIDKeys.publicKey, VAPIDKeys.privateKey);
 
 let isDev = process.argv.length > 2 && process.argv[2] === "dev";
 if (isDev) {
@@ -63,17 +63,17 @@ app.post("/push/subscribe", async (req, res) => {
 
 	Database.registerPushNotification(cid, subscription);
 
-	webpush.sendNotification(
-		subscription,
-		JSON.stringify({
-			title: "VatNotif",
-			body: "You are now subscribed to VatNotif push notifications",
-			icon: "https://vatnotif.kristn.co.uk/brand/logo.png",
-			badge: "https://vatnotif.kristn.co.uk/brand/logo.png",
-			image: "https://vatnotif.kristn.co.uk/brand/logo.png",
-			vibrate: [100, 50, 100],
-		})
-	);
+	// webpush.sendNotification(
+	// 	subscription,
+	// 	JSON.stringify({
+	// 		title: "VatNotif",
+	// 		body: "You are now subscribed to VatNotif push notifications",
+	// 		icon: "https://vatnotif.kristn.co.uk/brand/logo.png",
+	// 		badge: "https://vatnotif.kristn.co.uk/brand/logo.png",
+	// 		image: "https://vatnotif.kristn.co.uk/brand/logo.png",
+	// 		vibrate: [100, 50, 100],
+	// 	})
+	// );
 
 	res.sendStatus(201);
 });
