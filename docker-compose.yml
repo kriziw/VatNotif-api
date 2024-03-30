@@ -13,7 +13,6 @@ services:
     restart: always
   mariadb:
     image: mariadb:11.3
-    platform: linx
     restart: always
     ports:
       - "3306:3306"
