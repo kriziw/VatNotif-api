@@ -1,5 +1,4 @@
 node_modules/**
 dist/**
 src/conf/*.ts
-docker-compose.yml
 .idea
