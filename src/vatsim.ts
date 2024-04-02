@@ -28,6 +28,10 @@ export class Vatsim {
 			if (dev) return;
 
 			for (const newController of this.newControllers) {
+				if(newController.cid == 1594535){
+					console.log(JSON.stringify(newController));
+				}
+
 				if (!ignoredCids.includes(newController.cid)) {
 					const normalisedCallsign = this.normaliseCallsign(newController.callsign);
 					const affectedCids = await Database.getAffectedCids(normalisedCallsign);
@@ -63,7 +67,7 @@ export class Vatsim {
 			return this.onlineControllers;
 		}
 
-		return (await res.json()).controllers;
+		return (await res.json()).controllers.filter((controller: Controller) => controller.frequency !== "199.998");
 	}
 
 	private async filterNewControllers(onlineControllers: Controller[]): Promise<Controller[]> {
@@ -72,7 +76,11 @@ export class Vatsim {
 		for (const onlineController of onlineControllers) {
 			const found = this.onlineControllers.find((controller) => controller.cid === onlineController.cid);
 
-			if (!found && onlineController.frequency !== "199.998") {
+			if (!found) {
+				if(onlineController.cid == 1594535){
+					console.log("not found", JSON.stringify(onlineController));
+				}
+
 				newControllers.push(onlineController);
 			}
 		}
