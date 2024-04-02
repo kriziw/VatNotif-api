@@ -72,7 +72,7 @@ export class Vatsim {
 		for (const onlineController of onlineControllers) {
 			const found = this.onlineControllers.find((controller) => controller.cid === onlineController.cid);
 
-			if (!found) {
+			if (!found && onlineController.frequency !== "199.998") {
 				newControllers.push(onlineController);
 			}
 		}
