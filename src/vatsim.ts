@@ -28,10 +28,6 @@ export class Vatsim {
 			if (dev) return;
 
 			for (const newController of this.newControllers) {
-				if(newController.cid == 1594535){
-					console.log(JSON.stringify(newController));
-				}
-
 				if (!ignoredCids.includes(newController.cid)) {
 					const normalisedCallsign = this.normaliseCallsign(newController.callsign);
 					const affectedCids = await Database.getAffectedCids(normalisedCallsign);
@@ -77,10 +73,6 @@ export class Vatsim {
 			const found = this.onlineControllers.find((controller) => controller.cid === onlineController.cid);
 
 			if (!found) {
-				if(onlineController.cid == 1594535){
-					console.log("not found", JSON.stringify(onlineController));
-				}
-
 				newControllers.push(onlineController);
 			}
 		}
