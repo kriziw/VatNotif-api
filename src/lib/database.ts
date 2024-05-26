@@ -29,7 +29,7 @@ export class Database {
 	public static async getAffectedCids(callsign: string): Promise<number[]> {
 		const controllersBelow = ukData.controllerCallsignTopdown.get(callsign) || [];
 
-		let sql = "SELECT cid, callsign, topdown from watched_callsigns WHERE ? LIKE callsign";
+		let sql = "SELECT cid, callsign, topdown, pos_name from watched_callsigns WHERE ? LIKE callsign";
 		const values = [callsign];
 
 		for (const controller of controllersBelow) {
@@ -40,10 +40,11 @@ export class Database {
 
 		const rows = await this.query(sql, values);
 
-		const affectedData = rows.map((row: { cid: number; callsign: string; topdown: number }) => {
+		const affectedData = rows.map((row: { cid: number; callsign: string; topdown: number; pos_name: string}) => {
 			return {
 				cid: row.cid,
 				callsign: row.callsign,
+				pos_name: row.pos_name,
 				topdown: row.topdown === 1,
 			};
 		});

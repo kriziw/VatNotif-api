@@ -15,7 +15,7 @@ export class DiscordNotifications {
 					content: null,
 					embeds: [
 						{
-							title: "vACCHUN Monitoring: Controller has logged on!",
+							title: `${controller.pos_name}: Controller has logged on!`,
 							description: `🔼 Controller **${controller.name}** (${controller.cid}) has logged on as **${controller.callsign}** on frequency **${controller.frequency}**`!,
 							color: 3319890,
 							timestamp: new Date().toISOString(),
@@ -40,7 +40,7 @@ export class DiscordNotifications {
 					content: null,
 					embeds: [
 						{
-							title: "vACCHUN Monitoring: Controller has logged off",
+							title: `${controller.pos_name}: Controller has logged off!`,
 							description: `🔽 Controller **${controller.name}** (${controller.cid}) has logged off from **${controller.callsign}**!`,
 							color: 14298413,
 							timestamp: new Date().toISOString(),

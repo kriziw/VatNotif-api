@@ -11,4 +11,5 @@ export type Controller = {
 	lastUpdated: Date;
 	logonTime: Date;
 	expireAt: Date;
+	pos_name: string;
 };
